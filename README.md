@@ -1,10 +1,33 @@
-## My-Youtube
+# My-Youtube
+
+## Consignes / Objectifs
+
+- Pour commencer cette nouvelle plateforme, nous devons mettre en place une API REST. Dans notre cas, l'API délivre ses réponses au format JSON.
+- Comprendre la différence entre une architecture monolithique et microservices.
+- Faire communiquer des microservices via des APIs.
+- Utilisation d'outils comme Docker pour déployer des applications et des infrastructures.
+- Nous devons fournir 5 microservices : 
+    1. Un Site de diffusion :
+        Le développement de ce service doit se faire             avec Node.js en utilisant VueJS et Nuxt.
+    2. L'encodage : 
+        Lorsqu'un utilisateur met une vidéo en ligne,           elle doit être convertie dans un format et une           définition spécifique.
+        Afin que l'encodage ne soit pas bloquant durant         la navigation de l'utilisateur, nous souhaitons         qu'il s'exécute en tâche de fond grâce à un             microservice.
+    3. Mailer : 
+        Certains événements du site nécessitent un envoi         de mail à l'utilisateur : un changement de mot           de passe, à la fin de l'encodage...
+        Vous devrez donc mettre en place un microservice         sous la forme d'une API qui permettra d'envoyer         des mails.
+        Le microservice prend pour seuls paramètres             l'adresse email et le type de mail à envoyer. Le         mail doit être envoyé par Postfix.
+    4. Recherche : 
+        Vous devez mettre en place un moteur de                 recherche avec une recherche syntaxique.
+        Votre moteur de recherche doit se mettre à jour         à chaque ajout, modification ou suppression de         vidéo. Lorsque l’utilisateur fait une recherche de vidéos, la requête passe par le moteur de recherche.
+        Utilisation d'Elasticsearch.
+    5. L'API-REST 
+
 
 ### Configuration pour Traefik
 Avant de lancer les containers il faut modifier le fichier /etc/hosts pour ajouter les noms de domaines que nous souhaitons:
 
 ```php
-#Docker TIC-API3                                                                                                                             
+#Docker TIC-API3   
 127.0.0.1 dev.api3.local
 127.0.0.1 mongo.api3.local
 127.0.0.1 front.api3.local
@@ -91,3 +114,20 @@ La base de données est donc elle aussi créée via docker ainsi pour y accéder
 ![](https://i.imgur.com/JepGAd7.png)
 
 Voici donc l'uri à passer pour se connecter via compass : `mongodb://myapi:myapi@localhost:27018/?authMechanism=DEFAULT`
+
+### Résultats
+
+### Site de diffusion
+
+![](https://i.imgur.com/CMJHz7m.jpg)
+![](https://i.imgur.com/aZ3gloR.jpg)
+![](https://i.imgur.com/ldyMmOe.jpg)
+
+### Mailer
+| Envoie de mail lors de l'inscription | Envoie de mail lors de l'encodage d'une vidéo |
+| -------- | -------- | 
+| ![](https://i.imgur.com/JkUfjxe.png)     | ![](https://i.imgur.com/Ma9UdYJ.png)     | 
+
+### Recherche
+![](https://i.imgur.com/DsN4tNv.png)
+
