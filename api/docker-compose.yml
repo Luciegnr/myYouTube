@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  node:
+    image: node:14.16
+    volumes:
+      - "./:/var/www"
+    ports:
+      - "8081:3000"
+
+    links:
+      - mongo
+    command: bash -c "cd /var/www && npm run start"
+    environment:
+      - URL_MONGO=mongodb://myapi:myapi@mongo:27017/myapi?authSource=admin
+      
+    labels:
+      - "traefik.http.routers.node.tls=true"
+      - "traefik.http.routers.node.rule=Host(`dev.api3.local`)"
+
+  mongo:
+    image: mongo:4.0
+    volumes:
+      - "./mongo/data:/data/db"
+    restart: always
+    ports:
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: myapi
+      MONGO_INITDB_ROOT_PASSWORD: myapi
+      MONGO_INITDB_DATABASE: myapi
+    labels:
+      # Enables redirect to https, replace `containerName`
+      # - "traefik.http.routers.mongo-insecure.entrypoints=mongo"
+      # - "traefik.http.routers.mongo-insecure.middlewares=redirect-to-https"
+      # Enables TLS with a self-signed .test certificate, replace `containerName`
+      # - "traefik.http.routers.mongo.entrypoints=web-secure"
+      - "traefik.http.routers.mongo.tls=true"
+      - "traefik.http.routers.mongo.rule=Host(`mongo.api3.local`)"
+
+networks:
+  default:
+      name: api3
+      external: true

@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  encoding:
+    container_name: encoding
+    image: node:14.16
+    volumes:
+      - "./:/var/www"
+      - "../api/public:/var/www/public"
+      # - "../api/test.txt:var/www"
+    ports:
+      - "8083:3000"
+    command: bash -c "cd /var/www && npm install -y && npm run start"
+    environment:
+      - URL_MONGO=mongodb://myapi:myapi@mongo:27017/myapi?authSource=admin
+    
+    labels:
+      - "traefik.http.routers.encoding.tls=true"
+      - "traefik.http.routers.encoding.rule=Host(`encoding.local`)"
+
+networks:
+  default:
+    name: api3
+    external: true

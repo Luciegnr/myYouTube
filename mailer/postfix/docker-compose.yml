@@ -1,0 +1,23 @@
+version: "2"
+services:
+  postfix:
+    container_name: postfix
+    ports:
+      - "25:25"
+    image: juanluisbaptiste/postfix:latest
+    expose:
+      - "25"
+    env_file:
+      - .env
+    restart: always
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+
+    labels:
+      - "traefik.http.routers.postfix.tls=true"
+      - "traefik.http.routers.postfix.rule=Host(`postfix.mailer.local`)"
+
+networks:
+  default:
+    name: api3
+    external: true

@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  mailer:
+    image: node:14.16
+    volumes:
+      - "./:/var/www"
+    ports:
+      - "8082:3000"
+
+    command: bash -c "cd /var/www && npm start"
+    labels:
+      - "traefik.http.routers.mailer.tls=true"
+      - "traefik.http.routers.mailer.rule=Host(`dev.mailer.local`)"
+
+networks:
+  default:
+    name: api3
+    external: true

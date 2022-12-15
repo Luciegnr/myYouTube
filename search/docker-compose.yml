@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
+    ports:
+      - "9200:9200"
+    environment:
+        - "discovery.type=single-node"
+        - "bootstrap.memory_lock=true"
+        - "ES_JAVA_OPTS=-Xms1G -Xmx1G"
+        - "xpack.security.enabled=false"
+        - "http.cors.enabled=true"
+        - "http.cors.allow-origin=*"
+
+  search:
+    container_name: search
+    image: node:14.16
+    # expose:
+    #   - "3000"
+    volumes:
+      - "./:/var/www"
+    ports:
+      - "8085:3000"
+    command: bash -c "cd /var/www && npm run start"
+    environment:
+      - URL_MONGO=mongodb://myapi:myapi@mongo:27017/myapi?authSource=admin
+    
+    labels:
+      - "traefik.http.routers.search.tls=true"
+      - "traefik.http.routers.search.rule=Host(`search.api3.local`)"
+
+networks:
+  default:
+    name: api3
+    external: true

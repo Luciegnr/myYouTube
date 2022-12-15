@@ -1,0 +1,8 @@
+{
+  "VideosDetails": {
+    "description": "Auto imported from components/videos/details.vue"
+  },
+  "VideosList": {
+    "description": "Auto imported from components/videos/list.vue"
+  }
+}

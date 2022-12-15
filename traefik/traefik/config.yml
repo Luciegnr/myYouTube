@@ -1,0 +1,37 @@
+http:
+  routers:
+    traefik:
+      rule: "Host(`traefik.docker.localhost`)"
+      service: "api@internal"
+      tls:
+        domains:
+          - main: "docker.localhost"
+            sans:
+              - "*.docker.localhost"
+
+tls:
+  certificates:
+    - certFile: "/etc/certs/traefik.docker.localhost+3.pem"
+      keyFile: "etc/certs/traefik.docker.localhost+3-key.pem"
+      
+    - certFile: "/etc/certs/dev.api3.local+3.pem"
+      keyFile: "etc/certs/dev.api3.local+3-key.pem"
+
+    - certFile: "/etc/certs/my-youtube.local+3.pem"
+      keyFile: "etc/certs/my-youtube.local+3-key.pem"
+
+    - certFile: "/etc/certs/dev.mailer.local+3.pem"
+      keyFile: "etc/certs/dev.mailer.local+3-key.pem"
+
+    - certFile: "/etc/certs/mongo.api3.local+3.pem"
+      keyFile: "etc/certs/mongo.api3.local+3-key.pem"
+
+    - certFile: "/etc/certs/encoding.local+3.pem"
+      keyFile: "etc/certs/encoding.local+3-key.pem"
+
+    - certFile: "/etc/certs/search.api3.local.local+3.pem"
+      keyFile: "etc/certs/search.api3.local+3-key.pem"
+
+    - certFile: "/etc/certs/postfix.mailer.local.local+3.pem"
+      keyFile: "etc/certs/postfix.mailer.local+3-key.pem"
+
